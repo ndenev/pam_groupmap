@@ -1,0 +1,19 @@
+[package]
+name = "pam_groupmap"
+version = "0.1.0"
+authors = ["Nikolay Denev <ndenev@gmail.com>"]
+
+[lib]
+name = "pam_groupmap"
+crate-type = ["cdylib"]
+
+[dependencies]
+toml = "0.4.2"
+serde = "1.0.8"
+serde_derive = "1.0.8"
+libc = "0.2.24"
+ldap3 = "0.4.4"
+rand = "0.3.15"
+
+[profile.release]
+debug = true

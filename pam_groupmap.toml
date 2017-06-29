@@ -1,0 +1,22 @@
+# LDAP connection parameters
+[ldap]
+# Comma separated list of LDAP servers.
+uri = "ldaps://ldap1.example.com:636,ldaps://ldap2.example.com:636"
+# LDAP simple bind credentials (at the moment they are the same for all servers)
+user = "XXX"
+pass = "YYY"
+# pam_groupmap will do an LDAP subtree search for the
+# attribute $group_attribute under $user_base_dn with
+# filter ($uid_attribute=$pam_username)
+# Then the results are going to be filtered locally for
+# only those that end with $group_base_dn
+user_base_dn = "OU=people,OU=user,DC=example,DC=com"
+group_base_dn = "OU=db,OU=groups,DC=example,DC=com"
+uid_attribute = "sAMAccountName"
+group_attribute = "memberOf"
+
+# LDAP Group to User mappings
+[mappings]
+"dbadmin" = "dbadmin"
+"dbreadonly" = "dbrouser"
+"dbreadwrite" = "rbrwuser"
