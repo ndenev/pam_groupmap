@@ -1,0 +1,24 @@
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+matrix:
+  allow_failures:
+    - rust: nightly
+
+sudo: false
+addons:
+  apt:
+    packages:
+      - libpam0g-dev
+      - libssl-dev
+      - pkg-config
+
+script:
+  - cargo build --release --verbose
+  - cargo test --verbose
+
+notifications:
+  email:
+    on_success: never
