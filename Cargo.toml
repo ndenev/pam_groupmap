@@ -5,7 +5,6 @@ authors = ["Nikolay Denev <ndenev@gmail.com>"]
 description = "PAM Service module allowing to map users based on LDAP group membership"
 homepage = "https://github.com/ndenev/pam_groupmap"
 repository = "https://github.com/ndenev/pam_groupmap"
-documentation = "https://github.com/ndenev/pam_groupmap/README.md"
 keywords = ["pam", "pam-service-module", "ldap", "active-directory"]
 categories = ["authentication", "os"]
 readme = "README.md"
