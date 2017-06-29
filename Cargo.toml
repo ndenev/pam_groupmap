@@ -9,7 +9,6 @@ keywords = ["pam", "pam-service-module", "ldap", "active-directory"]
 categories = ["authentication", "os"]
 readme = "README.md"
 license = "MIT"
-license-file = "LICENSE"
 
 [lib]
 name = "pam_groupmap"

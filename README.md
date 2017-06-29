@@ -1,6 +1,7 @@
 # LDAP Group to User mapping module
 
 [![Join the chat at https://gitter.im/pam_groupmap/Lobby](https://badges.gitter.im/pam_groupmap/Lobby.svg)](https://gitter.im/pam_groupmap/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/ndenev/pam_groupmap.svg?branch=master)](https://travis-ci.org/ndenev/pam_groupmap)
 
 ## Description
 

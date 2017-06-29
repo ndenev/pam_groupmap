@@ -13,6 +13,7 @@ addons:
     packages:
       - libpam0g-dev
       - libssl-dev
+      - libldap-dev
       - pkg-config
 
 script:
