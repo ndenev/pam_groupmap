@@ -1,6 +1,6 @@
 [package]
 name = "pam_groupmap"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Nikolay Denev <ndenev@gmail.com>"]
 description = "PAM Service module allowing to map users based on LDAP group membership"
 homepage = "https://github.com/ndenev/pam_groupmap"
