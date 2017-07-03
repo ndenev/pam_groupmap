@@ -4,6 +4,10 @@ use std::io::prelude::*;
 use toml;
 use std::collections::BTreeMap;
 
+// Connection and Operation timeouts in seconds.
+const LDAP_CONN_TIMEOUT: u64 = 2;
+const LDAP_OP_TIMEOUT: u64 = 5;
+
 #[derive(Debug)]
 pub struct ConfigError(String);
 impl From<io::Error> for ConfigError {
@@ -21,6 +25,14 @@ impl From<toml::de::Error> for ConfigError {
 
 pub type Mappings = BTreeMap<String, String>;
 
+fn default_conn_timeout() -> u64 {
+    LDAP_CONN_TIMEOUT
+}
+
+fn default_op_timeout() -> u64 {
+    LDAP_OP_TIMEOUT
+}
+
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 pub struct Config {
@@ -34,6 +46,10 @@ pub struct LdapConfig {
     pub uri: String,
     pub user: String,
     pub pass: String,
+    #[serde(default = "default_conn_timeout")]
+    pub conn_timeout: u64,
+    #[serde(default = "default_op_timeout")]
+    pub op_timeout: u64,
     pub user_base_dn: String,
     pub group_base_dn: String,
     pub uid_attribute: String,

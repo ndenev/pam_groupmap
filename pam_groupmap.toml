@@ -1,10 +1,18 @@
 # LDAP connection parameters
 [ldap]
+#
 # Comma separated list of LDAP servers.
 uri = "ldaps://ldap1.example.com:636,ldaps://ldap2.example.com:636"
+#
 # LDAP simple bind credentials (at the moment they are the same for all servers)
 user = "XXX"
 pass = "YYY"
+#
+# LDAP server connection timeout in seconds, default is 2.
+# conn_timeout = 2
+# LDAP server opeartion timeout in seconds (bind and search), default is 5.
+# op_timeout = 5
+#
 # pam_groupmap will do an LDAP subtree search for the
 # attribute $group_attribute under $user_base_dn with
 # filter ($uid_attribute=$pam_username)

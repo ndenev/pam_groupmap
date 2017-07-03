@@ -4,14 +4,13 @@ extern crate ldap3;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate rand;
 
 mod pam;
 mod config;
 
-use rand::{thread_rng, Rng};
+use std::time::Duration;
 use std::collections::BTreeSet;
-use ldap3::{LdapConn, Scope, SearchEntry};
+use ldap3::{LdapConn, LdapConnBuilder, Scope, SearchEntry};
 
 // Re-export the PAM callbacks
 pub use pam::callbacks::*;
@@ -91,40 +90,36 @@ fn test_extract_ldap_servers() {
 }
 
 fn ldap_connect(ldap: &config::LdapConfig) -> Result<LdapConn, ()> {
-    // Because of the current limitations of the LDAP3 library that
-    // does not allow us to set TCP connect timeout try to shuffle
-    // the server list on connection to partially mitigate the connect delay
-    // in case a server is temporarily down.
-    let servers = {
-        let mut servers = extract_ldap_servers(&ldap.uri);
-        let mut rng = thread_rng();
-        rng.shuffle(servers.as_mut_slice());
-        servers
-    };
+    let servers = extract_ldap_servers(&ldap.uri);
+
     for server in servers {
-        // println!("Trying to connect to {}", server);
-        let lconn = match LdapConn::new(server) {
+        println!("Trying to connect to {}", server);
+        let lconn = match LdapConnBuilder::<LdapConn>::new()
+            .with_conn_timeout(Duration::from_secs(ldap.conn_timeout))
+            .connect(server) {
             Ok(c) => {
-                // println!("Connected to {}", server);
+                println!("Connected to {}", server);
                 c
             }
             Err(_) => {
-                // println!("Failed to connect to {}, trying next.", server);
+                println!("Failed to connect to {}, trying next.", server);
                 continue;
             }
         };
-        match lconn.simple_bind(&ldap.user, &ldap.pass) {
+        match lconn
+            .with_timeout(Duration::from_secs(ldap.op_timeout))
+            .simple_bind(&ldap.user, &ldap.pass) {
             Ok(_) => {
-                // println!("Simple Bind Succeeded");
+                println!("Simple Bind Succeeded");
                 return Ok(lconn);
             }
             Err(_) => {
-                // println!("Simple Bind Failed, trying next.");
+                println!("Simple Bind Failed, trying next.");
                 continue;
             }
         }
     }
-    // println!("Server list exhausted.");
+    println!("Server list exhausted.");
     Err(())
 }
 
@@ -134,6 +129,7 @@ fn get_user_groups(
     user: &String,
 ) -> Result<BTreeSet<String>, PamResultCode> {
     lconn
+        .with_timeout(Duration::from_secs(config.op_timeout))
         .search(
             &config.user_base_dn,
             Scope::Subtree,

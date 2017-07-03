@@ -38,6 +38,12 @@ uri = "ldaps://ldap1.example.com:636,ldaps://ldap2.example.com:636"
 # LDAP simple bind credentials (at the moment they are the same for all servers)
 user = "XXX"
 pass = "YYY"
+#
+# LDAP server connection timeout in seconds, default is 2.
+# conn_timeout = 2
+# LDAP server opeartion timeout in seconds (bind and search), default is 5.
+# op_timeout = 5
+#
 # pam_groupmap will do an LDAP subtree search for the
 # attribute $group_attribute under $user_base_dn with
 # filter ($uid_attribute=$pam_username)
@@ -68,12 +74,3 @@ Setup PAM, for example for Percona XtraDB in `/etc/pam.d/mysqld`:
 auth       requisite     pam_unix.so
 account    requisite     pam_groupmap.so /etc/pam_groupmap.toml
 ```
-
-## Known Issues
-
-There is no way to set connection timeout for LDAP so if one server is down it's possible
-for this module to take significant amount of time until it moves on to the second one.
-There is a GitHub [Issue](https://github.com/inejge/ldap3/issues/4) about this.
-
-As a temporary workaround of this issue (which also could be a good idea generally) the list
-of LDAP servers is currently randomized.

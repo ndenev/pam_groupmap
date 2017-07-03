@@ -1,6 +1,6 @@
 [package]
 name = "pam_groupmap"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Nikolay Denev <ndenev@gmail.com>"]
 description = "PAM Service module allowing to map users based on LDAP group membership"
 homepage = "https://github.com/ndenev/pam_groupmap"
@@ -19,7 +19,8 @@ toml = "0.4.2"
 serde = "1.0.8"
 serde_derive = "1.0.8"
 libc = "0.2.24"
-ldap3 = "0.4.4"
+# ldap3 = "0.4.4"
+ldap3 = { git = "https://github.com/inejge/ldap3.git", rev = "4b64268" }
 rand = "0.3.15"
 
 [profile.release]
