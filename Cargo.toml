@@ -10,6 +10,9 @@ categories = ["authentication", "os"]
 readme = "README.md"
 license = "MIT"
 
+[badges]
+travis-ci = { repository = "ndenev/pam_groupmap" }
+
 [lib]
 name = "pam_groupmap"
 crate-type = ["cdylib"]
