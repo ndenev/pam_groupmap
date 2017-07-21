@@ -11,6 +11,8 @@ mod config;
 use std::time::Duration;
 use std::collections::BTreeSet;
 use ldap3::{LdapConn, LdapConnBuilder, Scope, SearchEntry};
+use ldap3::result::SearchResult;
+use ldap3::ldap_escape;
 
 // Re-export the PAM callbacks
 pub use pam::callbacks::*;
@@ -133,12 +135,12 @@ fn get_user_groups(
         .search(
             &config.user_base_dn,
             Scope::Subtree,
-            &format!("({}={})", config.uid_attribute, user),
+            &format!("({}={})", config.uid_attribute, ldap_escape(user.as_ref())),
             vec![config.group_attribute.clone()],
         )
-        .map(|result_tuple| {
-            result_tuple
-                .0
+        .and_then(SearchResult::success)
+        .map(|(rset, _)| {
+            rset
                 .into_iter()
                 .map(|r| SearchEntry::construct(r))
                 .flat_map(|e| e.attrs)
