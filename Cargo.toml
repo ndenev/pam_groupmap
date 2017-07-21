@@ -22,8 +22,7 @@ toml = "0.4.2"
 serde = "1.0.8"
 serde_derive = "1.0.8"
 libc = "0.2.24"
-# ldap3 = "0.4.4"
-ldap3 = { git = "https://github.com/inejge/ldap3.git", rev = "4b64268" }
+ldap3 = "0.5"
 rand = "0.3.15"
 
 [profile.release]
