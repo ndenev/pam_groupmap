@@ -5,8 +5,6 @@
 
 ## Description
 
-*** WORK IN PROGRESS ***
-
 This PAM service module can be used to map given user to another based
 on LDAP group membership.
 It can work only if used as PAM *accounting* module.
